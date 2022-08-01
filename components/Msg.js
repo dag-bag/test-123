@@ -12,6 +12,8 @@ import {
 import { modalState, modalTypeState } from "../atoms/modelAtoms";
 
 import MsgSlider from "./MsgSlider";
+import io from "socket.io-client";
+let socket;
 
 function Msg() {
   const { data: session } = useSession();
@@ -27,13 +29,15 @@ function Msg() {
     const respData = await response.json();
 
     setMessages(respData);
+    socket = io();
+    socket.emit("join chat", selectedChat._id);
   };
   useEffect(() => {
     if (isSelect) {
       fetchMessages();
     }
     // fetchMessages();
-  }, [selectedChat, msg]);
+  }, [selectedChat, Messages]);
 
   const sendMsg = async (e) => {
     e.preventDefault();
@@ -51,8 +55,8 @@ function Msg() {
       }),
     });
     const respData = await response.json();
+    socket.emit("new msg", respData);
     setMessages([...Messages, respData]);
-
     setMsg("");
   };
 

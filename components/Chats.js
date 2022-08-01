@@ -10,8 +10,6 @@ import {
   selectedChatState,
 } from "../atoms/chatAtom";
 import getperfectChat from "../libs/getperfectChat";
-// import getperfectChat from "../lib/getperfectChat";
-// import io from "Socket.IO-client";
 
 function Chats({ chat }) {
   const { data: session } = useSession();

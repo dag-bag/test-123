@@ -22,7 +22,6 @@ function MsgSlider({ messages }) {
       setsocketConnected(true);
     });
     socket.emit("setup", session.user.id);
-    socket.emit("message", "heelo");
   };
   useEffect(() => {
     socketInitializer();

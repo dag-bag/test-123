@@ -11,8 +11,23 @@ const ioHandler = (req, res) => {
     io.on("connection", (socket) => {
       // socket.broadcast.emit("a user connected");
       socket.on("setup", (id) => {
-        console.log("hlo" + id);
         socket.join(id);
+      });
+      // socket.broadcast.emit("a user connected");
+      socket.on("join chat", (chatId) => {
+        console.log("User Joined", chatId);
+        socket.join(chatId);
+      });
+      socket.on("new msg", (newMessageRecieved) => {
+        var chat = newMessageRecieved.chat;
+
+        if (!chat.users) return console.log("chat.users not defined");
+
+        chat.users.forEach((user) => {
+          if (user._id == newMessageRecieved.sender._id) return;
+
+          socket.in(user._id).emit("message recieved", newMessageRecieved);
+        });
       });
     });
 
