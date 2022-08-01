@@ -16,7 +16,7 @@ function MsgSlider({ messages }) {
     var socket = io();
 
     socket.on("connect", () => {
-      console.log("connected");
+      // console.log("connected");
     });
     socket.on("connection", () => {
       setsocketConnected(true);
