@@ -6,6 +6,8 @@ import { useRecoilState } from "recoil";
 import { handleChatState, useSSRChatsState } from "../atoms/chatAtom";
 import Loader from "./Loader";
 import UserAvtar from "./UserAvtar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Search() {
   const { data: session } = useSession();
@@ -39,6 +41,14 @@ function Search() {
     }
   };
   const accessChat = async (id) => {
+    if (id === session.user.id) {
+      toast.error("You Can't Access chat with you!", {
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
     const response = await fetch("/api/chat", {
       method: "POST",
       body: JSON.stringify({
@@ -56,6 +66,7 @@ function Search() {
   };
   return (
     <form onSubmit={handleSearch} className="relative">
+      <ToastContainer />
       <input
         type="search"
         className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"

@@ -2,13 +2,60 @@
 
 import { useSession } from "next-auth/react";
 import { createKey } from "next/dist/shared/lib/router/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import {
+  getRightChatState,
+  isSelectState,
+  selectedChatState,
+} from "../atoms/chatAtom";
 import getperfectChat from "../libs/getperfectChat";
 // import getperfectChat from "../lib/getperfectChat";
-
+import io from "Socket.IO-client";
+let socket;
 function Chats({ chat }) {
   const { data: session } = useSession();
+  const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
+  const [Message, setMessage] = useState([]);
+  let socketInitializer = async () => {
+    await fetch("/api/socket");
+    socket = io();
+
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+
+    socket.emit("setup", session.user.id);
+    if (isSelect) {
+      socket.on("connect", () => {
+        socket.emit("join chat", selectedChat._id);
+      });
+    }
+
+    //
+  };
+  const [RightChatState, setRightChatState] = useRecoilState(getRightChatState);
+  useEffect(() => {
+    // socketInitializer();
+    // getChats();
+  }, [selectedChat]);
+
   let data = getperfectChat(session.user.id, chat.users);
+  const isGroup = chat.isGroupChat;
+
+  const [isSelect, setIsSelect] = useRecoilState(isSelectState);
+
+  // const getChats = async () => {
+  //   // console.log(selectedChat._id);
+  //   // const response = await fetch("/api/message/?chatId=" + selectedChat._id);
+  //   // const respData = await response.json();
+  //   // setMessage(respData);
+  //   // setAllChats(respData);
+  //   // setHandleChat(false);
+  //   // setUseSSRChats(false);
+  // };
+  // console.log(Message);
+
   // let c = chat.users[0];
   // console.log(c);
 
@@ -17,27 +64,60 @@ function Chats({ chat }) {
   //   let previousChat = chat.users[0];
   return (
     <>
-      <a
-        className={`flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none `}
-        // onClick={() => {
-        //   setSelectedChat(true);
-        // }}
-      >
-        <img
-          className="object-cover w-10 h-10 rounded-full"
-          src={data?.pic}
-          alt="username"
-        />
-        <div className="w-full pb-2">
-          <div className="flex justify-between">
-            <span className="block ml-2 font-semibold text-gray-600">
-              {data?.name}
-            </span>
-            <span className="block ml-2 text-sm text-gray-600">25 minutes</span>
+      {!isGroup && (
+        <a
+          className={`flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none `}
+          onClick={() => {
+            setSelectedChat(chat);
+            setIsSelect(true);
+            setRightChatState(getperfectChat(session.user.id, chat.users));
+            // socket.emit("setup", session.user.id);
+          }}
+        >
+          <img
+            className="object-cover w-10 h-10 rounded-full"
+            src={data?.pic}
+            alt="username"
+          />
+          <div className="w-full pb-2">
+            <div className="flex justify-between">
+              <span className="block ml-2 font-semibold text-gray-600">
+                {data?.name}
+              </span>
+              <span className="block ml-2 text-sm text-gray-600">
+                25 minutes
+              </span>
+            </div>
+            <span className="block ml-2 text-sm text-gray-600">bye</span>
           </div>
-          <span className="block ml-2 text-sm text-gray-600">bye</span>
-        </div>
-      </a>
+        </a>
+      )}
+      {isGroup && (
+        <a
+          className={`flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none `}
+          onClick={() => {
+            setSelectedChat(chat);
+            setIsSelect(true);
+          }}
+        >
+          <img
+            className="object-cover w-10 h-10 rounded-full"
+            src={data?.pic}
+            alt="username"
+          />
+          <div className="w-full pb-2">
+            <div className="flex justify-between">
+              <span className="block ml-2 font-semibold text-gray-600">
+                {chat?.chatName}
+              </span>
+              <span className="block ml-2 text-sm text-gray-600">
+                25 minutes
+              </span>
+            </div>
+            <span className="block ml-2 text-sm text-gray-600">bye</span>
+          </div>
+        </a>
+      )}
     </>
   );
 }

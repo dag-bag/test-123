@@ -14,7 +14,7 @@ const handler = async (req, res) => {
     const { chatId, userId } = req.body;
 
     // check if the requester is admin
-
+    console.log(chatId, userId);
     const added = await Chat.findByIdAndUpdate(
       chatId,
       {

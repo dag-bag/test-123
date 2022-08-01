@@ -2,7 +2,7 @@
 
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-
+import Message from "./Message";
 const chatSchema = new Schema(
   {
     chatName: { type: String, trim: true },

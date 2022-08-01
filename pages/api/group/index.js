@@ -7,16 +7,13 @@ import Chat from "../../../models/Chat";
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 const handler = async (req, res) => {
-  if (req.method === "GET") {
-  }
   if (req.method === "POST") {
     if (!req.body.users || !req.body.name) {
       return res.status(400).send({ message: "Please Fill all the feilds" });
     }
     const { name, user } = req.body;
     var users = req.body.users;
-    console.log(users);
-    console.log(name);
+
     if (users.length < 2) {
       return res
         .status(400)
@@ -28,7 +25,7 @@ const handler = async (req, res) => {
       chatName: req.body.name,
       users: users,
       isGroupChat: true,
-      groupAdmin: req.user,
+      groupAdmin: user,
     });
 
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id })

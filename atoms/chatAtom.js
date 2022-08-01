@@ -11,8 +11,21 @@ export const getChatState = atom({
   key: "getPostState",
   default: {},
 });
+export const selectedChatState = atom({
+  key: "selctedChatPostState",
+  default: {},
+});
 
 export const useSSRChatsState = atom({
   key: "useSSRPostsState",
   default: true,
+});
+export const isSelectState = atom({
+  key: "isSelectState",
+  default: false,
+});
+
+export const getRightChatState = atom({
+  key: "getRightChatState",
+  default: {},
 });

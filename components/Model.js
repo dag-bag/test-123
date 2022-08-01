@@ -9,6 +9,7 @@ import { Avatar } from "@mui/material";
 import Form from "./Form";
 import { useRecoilValue } from "recoil";
 import { getChatState } from "../atoms/chatAtom";
+import UpdateForm from "./UpdateGroupForm";
 
 const dropIn = {
   hidden: {
@@ -116,20 +117,21 @@ const Modal = ({ handleClose, type }) => {
       {type === "gifYouUp" && (
         <motion.div
           onClick={(e) => e.stopPropagation()}
-          className="rounded-l-lg flex bg-[#1D2226] w-full max-w-6xl -mt-[7vh] mx-6"
+          className="rounded-lg flex  -mt-[7vh] mx-6"
           variants={gifYouUp}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
-          <motion.img
+          {/* <motion.img
             alt=""
             onDoubleClick={handleClose}
             src={post.imgUrl}
             className="object-contain max-h-[80vh] w-full max-w-3xl rounded-l-lg"
-          />
-          <div className="w-full md:w-3/5 bg-white dark:bg-[#1D2226] rounded-r-lg">
+          /> */}
+          <div className="w-full md:w-full bg-white  rounded-lg">
             {/* <Post post={post} modalPost /> */}
+            <UpdateForm />
           </div>
         </motion.div>
       )}

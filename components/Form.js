@@ -12,7 +12,6 @@ import Loader from "./Loader";
 import UserAvtar from "./UserAvtar";
 function Form() {
   const { data: session } = useSession();
-  console.log("session:", session);
 
   const [useSSRChats, setUseSSRChats] = useRecoilState(useSSRChatsState);
   const [Search, setSearch] = useState("");
@@ -26,30 +25,45 @@ function Form() {
   const [photoUrl, setPhotoUrl] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      body: JSON.stringify({
-        name: TextArea,
-        users: selectedUsers,
-        user: session.user.id,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const responseData = await response.json();
-    console.log(responseData);
-    setUseSSRChats(false);
-    setHandleChat(true);
+    if (selectedUsers.length < 2) {
+      toast.error("Group At Least 2 Members");
+    }
+    if (selectedUsers.length >= 2) {
+      const response = await fetch("/api/group", {
+        method: "POST",
+        body: JSON.stringify({
+          name: TextArea,
+          users: selectedUsers,
+          user: session.user.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const responseData = await response.json();
+      console.log(responseData);
+      setUseSSRChats(false);
+      setHandleChat(true);
+      toast.success("Group created successfully");
+    }
   };
   const hasSelected = (userToAdd) => {
-    const filteredArray = selectedUsers.filter((user) => {
-      if (user._id === userToAdd._id) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    if (selectedUsers.find((u) => u._id === userToAdd._id)) {
+      toast.error("User Already in Added", {
+        isLoading: false,
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (userToAdd._id === session.user.id) {
+      toast.error("Admin Already Exist in this list", {
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
 
     setSelectedUsers([...selectedUsers, userToAdd]);
     setResult(false);
@@ -132,6 +146,9 @@ function Form() {
         className="absolute -bottom-2 right-0 font-medium bg-blue-400 hover:bg-blue-500 disabled:text-black/40 disabled:bg-gray-200 disabled:cursor-not-allowed text-white rounded-full px-3.5 py-1"
         type="submit"
         disabled={!TextArea.trim() && !photoUrl.trim()}
+        onClick={() => {
+          setModalOpen(false);
+        }}
       >
         Create Group
       </button>
