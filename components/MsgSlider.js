@@ -4,16 +4,16 @@
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { isLastMessage, isSameSender, isSameUser } from "../libs/chatLogic";
-// import io from "socket.io-client";
+import io from "socket.io-client";
 import { selectedChatState } from "../atoms/chatAtom";
 import { useRecoilState } from "recoil";
-
+let socket;
 function MsgSlider({ messages }) {
   const [socketConnected, setsocketConnected] = useState(false);
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
   const socketInitializer = async () => {
     await fetch("/api/socket");
-    var socket = io();
+    socket = io();
 
     socket.on("connect", () => {
       // console.log("connected");
