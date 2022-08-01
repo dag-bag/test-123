@@ -4,7 +4,7 @@
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { isLastMessage, isSameSender, isSameUser } from "../libs/chatLogic";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 import { selectedChatState } from "../atoms/chatAtom";
 import { useRecoilState } from "recoil";
 

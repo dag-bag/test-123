@@ -33,7 +33,7 @@ export default function Home({ chats }) {
   const [useSSRChats, setUseSSRChats] = useRecoilState(useSSRChatsState);
 
   const [AllChats, setAllChats] = useState([]);
-  const [SocketConnected, setSocketConnected] = useState(false);
+
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
   // Socket connection

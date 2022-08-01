@@ -12,8 +12,7 @@ import {
 import { modalState, modalTypeState } from "../atoms/modelAtoms";
 
 import MsgSlider from "./MsgSlider";
-import io from "Socket.IO-client";
-let socket = io();
+
 function Msg() {
   const { data: session } = useSession();
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
@@ -55,11 +54,6 @@ function Msg() {
     setMessages([...Messages, respData]);
 
     setMsg("");
-    let socket = io();
-    socket.on("connect", () => {
-      console.log("connected");
-    });
-    socket.emit("join chat", selectedChat._id);
   };
 
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
