@@ -11,34 +11,14 @@ import {
 } from "../atoms/chatAtom";
 import getperfectChat from "../libs/getperfectChat";
 // import getperfectChat from "../lib/getperfectChat";
-import io from "Socket.IO-client";
-let socket;
+// import io from "Socket.IO-client";
+
 function Chats({ chat }) {
   const { data: session } = useSession();
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
   const [Message, setMessage] = useState([]);
-  let socketInitializer = async () => {
-    await fetch("/api/socket");
-    socket = io();
 
-    socket.on("connect", () => {
-      console.log("connected");
-    });
-
-    socket.emit("setup", session.user.id);
-    if (isSelect) {
-      socket.on("connect", () => {
-        socket.emit("join chat", selectedChat._id);
-      });
-    }
-
-    //
-  };
   const [RightChatState, setRightChatState] = useRecoilState(getRightChatState);
-  useEffect(() => {
-    // socketInitializer();
-    // getChats();
-  }, [selectedChat]);
 
   let data = getperfectChat(session.user.id, chat.users);
   const isGroup = chat.isGroupChat;
