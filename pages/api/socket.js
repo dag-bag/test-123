@@ -20,7 +20,6 @@ const ioHandler = (req, res) => {
       });
       socket.on("new msg", (newMessageRecieved) => {
         var chat = newMessageRecieved.chat;
-
         if (!chat.users) return console.log("chat.users not defined");
 
         chat.users.forEach((user) => {

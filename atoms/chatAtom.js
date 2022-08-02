@@ -29,3 +29,8 @@ export const getRightChatState = atom({
   key: "getRightChatState",
   default: {},
 });
+
+export const messgeAtomState = atom({
+  key: "messgeAtomState",
+  default: [],
+});

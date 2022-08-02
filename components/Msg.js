@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import {
   getRightChatState,
   isSelectState,
+  messgeAtomState,
   selectedChatState,
 } from "../atoms/chatAtom";
 import { modalState, modalTypeState } from "../atoms/modelAtoms";
@@ -14,6 +15,7 @@ import { modalState, modalTypeState } from "../atoms/modelAtoms";
 import MsgSlider from "./MsgSlider";
 import io from "socket.io-client";
 let socket;
+let selectedChatCompare;
 
 function Msg() {
   const { data: session } = useSession();
@@ -22,7 +24,8 @@ function Msg() {
   const [rightUser, setRightUser] = useState([]);
   const [RightChatState, setRightChatState] = useRecoilState(getRightChatState);
   const [msg, setMsg] = useState("");
-  const [Messages, setMessages] = useState([]);
+  // const [Messages, setMessages] = useState([]);
+  const [Messages, setMessages] = useRecoilState(messgeAtomState);
 
   const fetchMessages = async () => {
     const response = await fetch("/api/message/?chatId=" + selectedChat._id);
@@ -35,6 +38,7 @@ function Msg() {
   useEffect(() => {
     if (isSelect) {
       fetchMessages();
+      selectedChatCompare = selectedChat;
     }
     // fetchMessages();
   }, [selectedChat, Messages]);
@@ -55,8 +59,9 @@ function Msg() {
       }),
     });
     const respData = await response.json();
-    socket.emit("new msg", respData);
+
     setMessages([...Messages, respData]);
+    socket.emit("new msg", respData);
     setMsg("");
   };
 
@@ -196,7 +201,7 @@ function Msg() {
               </button>
             </div>
             <div className="relative w-full p-6 overflow-y-scroll h-[30rem]">
-              <MsgSlider messages={Messages} />
+              <MsgSlider />
             </div>
             <form
               onSubmit={(e) => {
