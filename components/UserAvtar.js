@@ -1,5 +1,6 @@
 /** @format */
 
+import Image from "next/image";
 import React from "react";
 
 function UserAvtar({ user }) {
@@ -11,10 +12,12 @@ function UserAvtar({ user }) {
       >
         <div className="flex justify-between items-center">
           <div className="flex justify-center items-center space-x-4">
-            <img
-              src={user?.pic}
-              alt=""
-              className="h-10 w-10 object-cover rounded-full"
+            <Image
+              className="object-cover w-10 h-10 rounded-full"
+              src={user.image}
+              alt="username"
+              width={40}
+              height={40}
             />
             <h1 className="font-bold">{user?.name}</h1>
             <div className="font-semibold ">{user?.email}</div>

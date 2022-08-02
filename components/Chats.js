@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { createKey } from "next/dist/shared/lib/router/router";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import {
@@ -52,11 +53,15 @@ function Chats({ chat }) {
             // socket.emit("setup", session.user.id);
           }}
         >
-          <img
-            className="object-cover w-10 h-10 rounded-full"
-            src={data?.pic}
-            alt="username"
-          />
+          <div>
+            <Image
+              className="object-cover w-10 h-10 rounded-full"
+              src={data?.pic}
+              alt="username"
+              width={40}
+              height={40}
+            />
+          </div>
           <div className="w-full pb-2">
             <div className="flex justify-between">
               <span className="block ml-2 font-semibold text-gray-600">
@@ -78,10 +83,12 @@ function Chats({ chat }) {
             setIsSelect(true);
           }}
         >
-          <img
+          <Image
             className="object-cover w-10 h-10 rounded-full"
             src={data?.pic}
             alt="username"
+            width={40}
+            height={40}
           />
           <div className="w-full pb-2">
             <div className="flex justify-between">

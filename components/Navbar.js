@@ -1,6 +1,7 @@
 /** @format */
 
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import React, { useState } from "react";
 
 export default function Navbar() {
@@ -29,10 +30,12 @@ export default function Navbar() {
       <div className="bg-white rounded shadow-lg py-5 px-7">
         <nav className="flex justify-between">
           <div className="flex items-center space-x-3 lg:pr-16 pr-6">
-            <img
-              className="inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white"
-              src={session?.user.image}
-              alt="Guy"
+            <Image
+              className="object-cover w-10 h-10 rounded-full"
+              src={session.user.image}
+              alt="username"
+              width={60}
+              height={60}
             />
             <h2 className="font-normal text-2xl leading-6 text-gray-800">
               {session?.user.name}

@@ -25,7 +25,6 @@ import { modalState, modalTypeState } from "../atoms/modelAtoms";
 import Msg from "../components/Msg";
 
 export default function Home({ chats }) {
-  const auth = useAuth();
   const { data: session } = useSession();
 
   const [handleChat, setHandleChat] = useRecoilState(handleChatState);

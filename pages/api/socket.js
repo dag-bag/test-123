@@ -28,6 +28,10 @@ const ioHandler = (req, res) => {
           socket.in(user._id).emit("message recieved", newMessageRecieved);
         });
       });
+      socket.off("setup", (userid) => {
+        console.log("User Disconnected");
+        socket.leave(userid);
+      });
     });
 
     res.socket.server.io = io;

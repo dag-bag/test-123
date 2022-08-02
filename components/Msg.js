@@ -13,10 +13,11 @@ import {
 import { modalState, modalTypeState } from "../atoms/modelAtoms";
 
 import MsgSlider from "./MsgSlider";
-import io from "socket.io-client";
-let socket;
+// import io from "socket.io-client";
+import Image from "next/image";
+// let socket;
+import GroupWorkIcon from "@mui/icons-material/GroupWork";
 let selectedChatCompare;
-
 function Msg() {
   const { data: session } = useSession();
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
@@ -32,8 +33,8 @@ function Msg() {
     const respData = await response.json();
 
     setMessages(respData);
-    socket = io();
-    socket.emit("join chat", selectedChat._id);
+    // socket = io();
+    // socket.emit("join chat", selectedChat._id);
   };
   useEffect(() => {
     if (isSelect) {
@@ -61,7 +62,7 @@ function Msg() {
     const respData = await response.json();
 
     setMessages([...Messages, respData]);
-    socket.emit("new msg", respData);
+    // socket.emit("new msg", respData);
     setMsg("");
   };
 
@@ -81,11 +82,14 @@ function Msg() {
         <div className="hidden lg:col-span-2 lg:block">
           <div className="w-full">
             <div className="relative flex items-center p-3 border-b border-gray-300">
-              <img
+              <Image
                 className="object-cover w-10 h-10 rounded-full"
                 src={RightChatState?.pic}
                 alt="username"
+                width={40}
+                height={40}
               />
+
               <span className="block ml-2 font-bold text-gray-600">
                 {RightChatState?.name}
               </span>
@@ -180,11 +184,7 @@ function Msg() {
           <div className="w-full">
             <div className="relative flex items-center justify-between p-3 border-b border-gray-300">
               <div className="flex items-center">
-                <img
-                  className="object-cover w-10 h-10 rounded-full"
-                  src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
-                  alt="username"
-                />
+                <GroupWorkIcon className="!h-20 !w-20 " />
                 <span className="block ml-2 font-bold text-gray-600 uppercase">
                   {selectedChat.chatName}
                 </span>

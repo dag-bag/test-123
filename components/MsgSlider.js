@@ -7,6 +7,7 @@ import { isLastMessage, isSameSender, isSameUser } from "../libs/chatLogic";
 import io from "socket.io-client";
 import { messgeAtomState, selectedChatState } from "../atoms/chatAtom";
 import { useRecoilState } from "recoil";
+import Image from "next/image";
 let socket;
 function MsgSlider() {
   const [socketConnected, setsocketConnected] = useState(false);
@@ -30,9 +31,9 @@ function MsgSlider() {
     socket.emit("setup", session.user.id);
   };
 
-  useEffect(() => {
-    socketInitializer();
-  }, [messages]);
+  // useEffect(() => {
+  //   socketInitializer();
+  // }, [messages]);
   // useEffect(() => {
   //   socket = io();
   //
@@ -52,10 +53,12 @@ function MsgSlider() {
         {(isSameSender(messages, m, i, session.user.id) ||
           isLastMessage(messages, i, session.user.id)) && (
           <div>
-            <img
-              className="mt-2 mr-1 text-sm cursor-pointer h-10 w-10 rounded-full"
-              alt={m.sender.name}
+            <Image
+              className="object-cover w-10 h-10 rounded-full"
               src={m.sender.pic}
+              alt="username"
+              width={40}
+              height={40}
             />
           </div>
         )}
