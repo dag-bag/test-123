@@ -41,8 +41,7 @@ function Msg() {
       fetchMessages();
       selectedChatCompare = selectedChat;
     }
-    // fetchMessages();
-  }, [selectedChat, Messages]);
+  }, []);
 
   const sendMsg = async (e) => {
     e.preventDefault();
