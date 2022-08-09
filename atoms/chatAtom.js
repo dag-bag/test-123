@@ -34,3 +34,8 @@ export const messgeAtomState = atom({
   key: "messgeAtomState",
   default: [],
 });
+
+export const useSSRPostsState = atom({
+  key: "useSSRPostsState",
+  default: true,
+});

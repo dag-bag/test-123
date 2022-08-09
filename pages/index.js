@@ -49,7 +49,7 @@ export default function Home({ chats }) {
       getChats();
     }
     // getperfectChat(session.user.id, AllChats.users);
-  }, [handleChat, useSSRChats]);
+  }, [handleChat]);
 
   return (
     <div>

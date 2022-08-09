@@ -12,7 +12,7 @@ import {
 } from "../atoms/chatAtom";
 import getperfectChat from "../libs/getperfectChat";
 
-function Chats({ chat }) {
+function Chats({ chat, user }) {
   const { data: session } = useSession();
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
   const [Message, setMessage] = useState([]);

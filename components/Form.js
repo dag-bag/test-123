@@ -40,8 +40,8 @@ function Form() {
           "Content-Type": "application/json",
         },
       });
-      const responseData = await response.json();
-      console.log(responseData);
+      // const responseData = await response.json();
+
       setUseSSRChats(false);
       setHandleChat(true);
       toast.success("Group created successfully");

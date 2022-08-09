@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 export default function Navbar() {
   const { data: session } = useSession();
-  let arr = [true, false, false, false, false, false];
+
   const [style, setStyle] = useState(arr);
   const [dropDown, setDropDown] = useState(true);
   const [text, setText] = useState("");

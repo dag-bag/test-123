@@ -14,21 +14,21 @@ function MsgSlider() {
   const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
   const [messages, setMessages] = useRecoilState(messgeAtomState);
   const socketInitializer = async () => {
-    await fetch("/api/socket");
+    await fetch("/api/socket/");
     socket = io();
 
     socket.on("connect", () => {
       console.log("connected");
     });
-    socket.on("connection", () => {
-      setsocketConnected(true);
-    });
-    socket.on("message recieved", (newMessageRecieved) => {
-      console.log("New MSG", newMessageRecieved);
-      console.log(newMessageRecieved);
-      setMessages([...messages, newMessageRecieved]);
-    });
-    socket.emit("setup", session.user.id);
+    // socket.on("connection", () => {
+    //   setsocketConnected(true);
+    // });
+    // socket.on("message recieved", (newMessageRecieved) => {
+    //   console.log("New MSG", newMessageRecieved);
+    //   console.log(newMessageRecieved);
+    //   setMessages([...messages, newMessageRecieved]);
+    // });
+    // socket.emit("setup", session.user.id);
   };
 
   // useEffect(() => {
